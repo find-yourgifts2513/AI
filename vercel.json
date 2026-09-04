@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://ai-wardrobe-3wpo.onrender.com/api/:path*" },
+    { "source": "/uploads/:path*", "destination": "https://ai-wardrobe-3wpo.onrender.com/uploads/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
