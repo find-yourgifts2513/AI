@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "item_1788496757790_u2v0q",
+    "wearCount": 0,
+    "createdAt": "2026-09-04T04:39:17.789Z",
+    "userId": "demo-user-123",
+    "date": "2026-09-04",
+    "topItem": "item_1788496757617_seu8m",
+    "bottomItem": "item_1788496757660_ms477",
+    "footwearItem": "item_1788496757673_w3sno",
+    "accessoryItem": "item_1788496757710_1e8n1",
+    "mood": "Calm",
+    "occasion": "Traditional",
+    "harmonyScore": 81,
+    "explanation": "Matched Royal Blue Ethnic Kurta (Royal Blue) with Charcoal Grey Tailored Trousers (Heather Grey). Selected harmonious, soothing undertones for a calm, composed appearance. Tailored specifically for Traditional mode completed with auto-matched Gold Chronograph Watch.",
+    "accepted": false
+  }
+]

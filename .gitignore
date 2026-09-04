@@ -1,0 +1,12 @@
+node_modules/
+.vite/
+dist/
+.env
+.env.*
+.DS_Store
+.vscode/
+coverage/
+__pycache__/
+*.pyc
+*.log
+npm-debug.log*

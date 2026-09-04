@@ -1,0 +1,298 @@
+[
+  {
+    "_id": "item_1788496757551_t0gre",
+    "wearCount": 8,
+    "createdAt": "2026-09-04T04:39:17.551Z",
+    "userId": "demo-user-123",
+    "name": "Navy Blue Crisp Oxford Shirt",
+    "category": "top",
+    "subCategory": "shirt",
+    "dominantColors": [
+      {
+        "name": "Navy Blue",
+        "hex": "#1B263B",
+        "rgb": [
+          27,
+          38,
+          59
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "office",
+      "formal",
+      "smart_casual"
+    ],
+    "colorTemperature": "cool",
+    "vibrancy": "dark",
+    "favorite": true,
+    "imageUrl": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757580_1phlm",
+    "wearCount": 2,
+    "createdAt": "2026-09-04T04:39:17.580Z",
+    "userId": "demo-user-123",
+    "name": "Mustard Yellow Casual Polo Tee",
+    "category": "top",
+    "subCategory": "polo",
+    "dominantColors": [
+      {
+        "name": "Mustard Yellow",
+        "hex": "#FFDB58",
+        "rgb": [
+          255,
+          219,
+          88
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "casual",
+      "college"
+    ],
+    "colorTemperature": "warm",
+    "vibrancy": "vibrant",
+    "favorite": false,
+    "imageUrl": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757601_b822j",
+    "wearCount": 5,
+    "createdAt": "2026-09-04T04:39:17.602Z",
+    "userId": "demo-user-123",
+    "name": "Burgundy Party Silk Shirt",
+    "category": "top",
+    "subCategory": "shirt",
+    "dominantColors": [
+      {
+        "name": "Burgundy",
+        "hex": "#800020",
+        "rgb": [
+          128,
+          0,
+          32
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "party",
+      "stylish"
+    ],
+    "colorTemperature": "warm",
+    "vibrancy": "vibrant",
+    "favorite": true,
+    "imageUrl": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757617_seu8m",
+    "wearCount": 1,
+    "createdAt": "2026-09-04T04:39:17.617Z",
+    "userId": "demo-user-123",
+    "name": "Royal Blue Ethnic Kurta",
+    "category": "top",
+    "subCategory": "ethnic_wear",
+    "dominantColors": [
+      {
+        "name": "Royal Blue",
+        "hex": "#4169E1",
+        "rgb": [
+          65,
+          105,
+          225
+        ]
+      }
+    ],
+    "pattern": "floral",
+    "styleTags": [
+      "ethnic",
+      "traditional"
+    ],
+    "colorTemperature": "cool",
+    "vibrancy": "vibrant",
+    "favorite": false,
+    "imageUrl": "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757638_ejbz5",
+    "wearCount": 14,
+    "createdAt": "2026-09-04T04:39:17.638Z",
+    "userId": "demo-user-123",
+    "name": "Classic Indigo Denim Jeans",
+    "category": "bottom",
+    "subCategory": "jeans",
+    "dominantColors": [
+      {
+        "name": "Navy Blue",
+        "hex": "#1B263B",
+        "rgb": [
+          27,
+          38,
+          59
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "casual",
+      "college",
+      "party"
+    ],
+    "colorTemperature": "cool",
+    "vibrancy": "dark",
+    "favorite": true,
+    "imageUrl": "https://images.unsplash.com/photo-1542272604-780c36856842?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757660_ms477",
+    "wearCount": 6,
+    "createdAt": "2026-09-04T04:39:17.660Z",
+    "userId": "demo-user-123",
+    "name": "Charcoal Grey Tailored Trousers",
+    "category": "bottom",
+    "subCategory": "trousers",
+    "dominantColors": [
+      {
+        "name": "Heather Grey",
+        "hex": "#4A4A4A",
+        "rgb": [
+          74,
+          74,
+          74
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "office",
+      "formal"
+    ],
+    "colorTemperature": "neutral",
+    "vibrancy": "dark",
+    "favorite": false,
+    "imageUrl": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757673_w3sno",
+    "wearCount": 12,
+    "createdAt": "2026-09-04T04:39:17.673Z",
+    "userId": "demo-user-123",
+    "name": "White Clean Leather Sneakers",
+    "category": "footwear",
+    "subCategory": "sneakers",
+    "dominantColors": [
+      {
+        "name": "Pure White",
+        "hex": "#FAFAFA",
+        "rgb": [
+          250,
+          250,
+          250
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "casual",
+      "college",
+      "party"
+    ],
+    "colorTemperature": "neutral",
+    "vibrancy": "pastel",
+    "favorite": true,
+    "imageUrl": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757692_3t4x4",
+    "wearCount": 4,
+    "createdAt": "2026-09-04T04:39:17.692Z",
+    "userId": "demo-user-123",
+    "name": "Tan Leather Penny Loafers",
+    "category": "footwear",
+    "subCategory": "loafers",
+    "dominantColors": [
+      {
+        "name": "Beige / Tan",
+        "hex": "#D2B48C",
+        "rgb": [
+          210,
+          180,
+          140
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "office",
+      "formal",
+      "smart_casual"
+    ],
+    "colorTemperature": "warm",
+    "vibrancy": "muted",
+    "favorite": false,
+    "imageUrl": "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757710_1e8n1",
+    "wearCount": 9,
+    "createdAt": "2026-09-04T04:39:17.710Z",
+    "userId": "demo-user-123",
+    "name": "Gold Chronograph Watch",
+    "category": "accessory",
+    "subCategory": "watch",
+    "dominantColors": [
+      {
+        "name": "Gold / Warm Metallic",
+        "hex": "#FFD700",
+        "rgb": [
+          255,
+          215,
+          0
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "office",
+      "party",
+      "stylish"
+    ],
+    "colorTemperature": "warm",
+    "vibrancy": "vibrant",
+    "favorite": true,
+    "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80"
+  },
+  {
+    "_id": "item_1788496757724_sp4tx",
+    "wearCount": 15,
+    "createdAt": "2026-09-04T04:39:17.724Z",
+    "userId": "demo-user-123",
+    "name": "Classic Black Leather Belt",
+    "category": "accessory",
+    "subCategory": "belt",
+    "dominantColors": [
+      {
+        "name": "Classic Black",
+        "hex": "#111111",
+        "rgb": [
+          17,
+          17,
+          17
+        ]
+      }
+    ],
+    "pattern": "solid",
+    "styleTags": [
+      "office",
+      "formal",
+      "casual"
+    ],
+    "colorTemperature": "neutral",
+    "vibrancy": "dark",
+    "favorite": false,
+    "imageUrl": "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500&q=80"
+  }
+]
