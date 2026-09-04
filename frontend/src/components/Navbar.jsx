@@ -1,9 +1,11 @@
 import React from 'react';
-import { Sparkles, Shirt, Wand2, User, Calendar, BarChart3, Camera, Moon, Sun } from 'lucide-react';
+import { Sparkles, Shirt, Wand2, User, Calendar, BarChart3, Camera, Moon, Sun, LogOut } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar({ activePage, setActivePage }) {
   const { themeMode, toggleTheme, activeMoodTheme } = useTheme();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Sparkles },
@@ -71,6 +73,24 @@ export default function Navbar({ activePage, setActivePage }) {
                 <span>Mood: {activeMoodTheme}</span>
               </div>
             )}
+
+            <div className="hidden sm:flex items-center gap-2 rounded-xl border border-stone-200 dark:border-slate-700 bg-stone-100/80 dark:bg-slate-800/80 px-2.5 py-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-rose-500 to-purple-600 text-xs font-black text-white">
+                {user?.username?.charAt(0)?.toUpperCase() || 'A'}
+              </div>
+              <div className="text-left leading-tight">
+                <div className="text-[10px] font-bold text-stone-500 dark:text-slate-400">Signed in</div>
+                <div className="text-[11px] font-semibold text-stone-800 dark:text-slate-200">{user?.username || 'Stylist'}</div>
+              </div>
+            </div>
+
+            <button
+              onClick={logout}
+              title="Log out"
+              className="p-2 rounded-xl border border-stone-200 dark:border-slate-700 bg-stone-100/80 dark:bg-slate-800/80 text-stone-700 dark:text-slate-200 hover:scale-105 transition-transform"
+            >
+              <LogOut className="w-4 h-4 text-rose-500" />
+            </button>
 
             {/* Theme Toggle Button */}
             <button

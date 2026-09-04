@@ -15,18 +15,18 @@ function initDailyOutfitScheduler() {
   });
 }
 
-async function generateTodayOutfitIfNeeded(forceNew = false) {
+async function generateTodayOutfitIfNeeded(userId = 'demo-user-123', forceNew = false) {
   try {
     const todayStr = new Date().toISOString().split('T')[0];
 
     // Check if outfit for today already exists
-    const existing = await DailyOutfitStore.findOne({ date: todayStr });
+    const existing = await DailyOutfitStore.findOne({ userId, date: todayStr });
     if (existing && !forceNew) {
       return existing;
     }
 
-    // Get all user clothing items
-    const items = await ClothingStore.find();
+    // Get all clothing items for the correct user
+    const items = await ClothingStore.find({ userId });
     if (!items || items.length === 0) {
       console.warn('[Daily Scheduler] No items found in wardrobe to schedule outfit.');
       return null;
@@ -44,7 +44,7 @@ async function generateTodayOutfitIfNeeded(forceNew = false) {
 
     const topRec = recs[0];
     const outfitData = {
-      userId: 'demo-user-123',
+      userId,
       date: todayStr,
       topItem: topRec.topItem._id || topRec.topItem.id,
       bottomItem: topRec.bottomItem._id || topRec.bottomItem.id,

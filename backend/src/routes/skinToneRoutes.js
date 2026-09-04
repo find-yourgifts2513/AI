@@ -27,8 +27,8 @@ router.post('/analyze', protect, upload.single('selfie'), async (req, res) => {
       }
     });
 
-    // Find complementary wardrobe items in existing wardrobe
-    const allItems = await ClothingStore.find();
+    // Find complementary wardrobe items in the logged-in user's wardrobe
+    const allItems = await ClothingStore.find({ userId: req.user.id });
     const recHexes = result.recommendedColors.map(c => c.hex.toLowerCase());
 
     const complementaryItems = allItems.filter(item => {

@@ -80,7 +80,7 @@ router.post('/upload', protect, upload.single('image'), async (req, res) => {
 router.get('/', protect, async (req, res) => {
   try {
     const { category, pattern, mood, occasion } = req.query;
-    let items = await ClothingStore.find();
+    let items = await ClothingStore.find({ userId: req.user.id });
 
     if (category) {
       items = items.filter(item => item.category === category);

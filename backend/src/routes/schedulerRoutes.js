@@ -7,7 +7,7 @@ const { generateTodayOutfitIfNeeded } = require('../scheduler/dailyOutfitCron');
 // Get Today's Daily Outfit Suggestion
 router.get('/today', protect, async (req, res) => {
   try {
-    let todayOutfit = await generateTodayOutfitIfNeeded();
+    let todayOutfit = await generateTodayOutfitIfNeeded(req.user.id);
 
     if (!todayOutfit) {
       return res.status(404).json({ message: 'No outfit generated for today yet. Please add items to wardrobe first.' });
@@ -24,7 +24,7 @@ router.get('/today', protect, async (req, res) => {
 // Force generate/refresh Today's Outfit
 router.post('/refresh', protect, async (req, res) => {
   try {
-    const refreshed = await generateTodayOutfitIfNeeded(true);
+    const refreshed = await generateTodayOutfitIfNeeded(req.user.id, true);
     const populated = await populateOutfit(refreshed);
     res.json({ message: 'Today\'s outfit refreshed!', outfit: populated });
   } catch (err) {
@@ -35,7 +35,7 @@ router.post('/refresh', protect, async (req, res) => {
 // Get Outfit History
 router.get('/history', protect, async (req, res) => {
   try {
-    const history = await DailyOutfitStore.find();
+    const history = await DailyOutfitStore.find({ userId: req.user.id });
     history.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const populatedHistory = await Promise.all(history.map(populateOutfit));

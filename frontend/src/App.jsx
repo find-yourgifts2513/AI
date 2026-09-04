@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UploadModal from './components/UploadModal';
+import AuthModal from './components/AuthModal';
 
 import DashboardPage from './pages/DashboardPage';
 import WardrobePage from './pages/WardrobePage';
@@ -16,8 +17,13 @@ import TryOnPage from './pages/TryOnPage';
 function MainAppContent() {
   const [activePage, setActivePage] = useState('dashboard');
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const { token } = useAuth();
 
   const { getBackgroundGradient } = useTheme();
+
+  if (!token) {
+    return <AuthModal />;
+  }
 
   return (
     <div className={`min-h-screen flex flex-col justify-between transition-colors duration-500 ${getBackgroundGradient()}`}>

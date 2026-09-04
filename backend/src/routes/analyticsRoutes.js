@@ -5,7 +5,7 @@ const { protect } = require('../middleware/authMiddleware');
 
 router.get('/stats', protect, async (req, res) => {
   try {
-    const items = await ClothingStore.find();
+    const items = await ClothingStore.find({ userId: req.user.id });
 
     const totalItems = items.length;
     const categoryCounts = { top: 0, bottom: 0, footwear: 0, accessory: 0 };
@@ -31,7 +31,7 @@ router.get('/stats', protect, async (req, res) => {
     const mostWornItems = [...items].sort((a, b) => (b.wearCount || 0) - (a.wearCount || 0)).slice(0, 4);
 
     // Most Loved Outfits
-    const history = await DailyOutfitStore.find();
+    const history = await DailyOutfitStore.find({ userId: req.user.id });
     const topCombinations = history
       .filter(o => o.harmonyScore >= 80)
       .sort((a, b) => b.harmonyScore - a.harmonyScore)

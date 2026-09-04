@@ -7,7 +7,7 @@ const { generateOutfitRecommendations } = require('../services/aiRecommendationS
 router.post('/generate', protect, async (req, res) => {
   try {
     const { mood = 'Energetic', occasion = 'College' } = req.body;
-    const items = await ClothingStore.find();
+    const items = await ClothingStore.find({ userId: req.user.id });
 
     const user = await UserStore.findById(req.user.id);
     const skinProfile = user?.skinToneProfile || null;
