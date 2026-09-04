@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = '/api';
+const API_BASE = 'https://ai-wardrobe-3wpo.onrender.com/api';
 
 export const fetchWardrobeItems = async (params = {}) => {
   const res = await axios.get(`${API_BASE}/wardrobe`, { params });
