@@ -1,6 +1,18 @@
 import axios from 'axios';
 
-const API_BASE = 'https://ai-wardrobe-3wpo.onrender.com/api';
+export const BACKEND_URL = import.meta.env.VITE_API_URL 
+  ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '') 
+  : 'https://ai-wardrobe-3wpo.onrender.com';
+
+const API_BASE = `${BACKEND_URL}/api`;
+
+export const resolveImageUrl = (url) => {
+  if (!url) return 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80';
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('blob:')) {
+    return url;
+  }
+  return `${BACKEND_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+};
 
 export const fetchWardrobeItems = async (params = {}) => {
   const res = await axios.get(`${API_BASE}/wardrobe`, { params });

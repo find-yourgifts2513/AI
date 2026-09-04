@@ -1,0 +1,24 @@
+services:
+  # Node.js Express Backend API Service
+  - type: web
+    name: ai-wardrobe-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+
+  # Python Computer Vision Microservice (Optional)
+  - type: web
+    name: ai-wardrobe-engine
+    env: python
+    buildCommand: cd ai_engine && pip install -r requirements.txt
+    startCommand: cd ai_engine && python app.py
+    envVars:
+      - key: PORT
+        value: 5001

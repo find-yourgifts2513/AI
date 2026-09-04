@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tag, Sparkles, Heart, Trash2, CheckCircle2 } from 'lucide-react';
-import { incrementItemWear, deleteWardrobeItem } from '../services/api';
+import { incrementItemWear, deleteWardrobeItem, resolveImageUrl } from '../services/api';
 
 export default function ItemCard({ item, onDelete, onWearUpdated }) {
   const primaryColor = item.dominantColors?.[0] || { name: 'Color', hex: '#666' };
@@ -40,7 +40,7 @@ export default function ItemCard({ item, onDelete, onWearUpdated }) {
       {/* Top Image Container */}
       <div className="relative aspect-square w-full bg-stone-100 dark:bg-slate-900/50 overflow-hidden flex items-center justify-center">
         <img
-          src={item.imageUrl}
+          src={resolveImageUrl(item.imageUrl)}
           alt={item.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           onError={(e) => {

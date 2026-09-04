@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://ai-wardrobe-3wpo.onrender.com/api';
+
 const DEMO_USER = {
   id: 'demo-user-123',
   username: 'DemoStylist',
@@ -38,7 +40,7 @@ export function AuthProvider({ children }) {
   }, [user]);
 
   const login = async (email, password) => {
-    const res = await axios.post('/api/auth/login', { email, password });
+    const res = await axios.post(`${API_BASE}/auth/login`, { email, password });
     setToken(res.data.token);
     setUser(res.data.user);
     localStorage.setItem('ai_wardrobe_token', res.data.token);
@@ -47,7 +49,7 @@ export function AuthProvider({ children }) {
   };
 
   const register = async (username, email, password) => {
-    const res = await axios.post('/api/auth/register', { username, email, password });
+    const res = await axios.post(`${API_BASE}/auth/register`, { username, email, password });
     setToken(res.data.token);
     setUser(res.data.user);
     localStorage.setItem('ai_wardrobe_token', res.data.token);

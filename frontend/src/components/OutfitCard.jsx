@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sparkles, CheckCircle2, Award, Zap, Smile, Heart, Shield } from 'lucide-react';
-import { incrementItemWear } from '../services/api';
+import { incrementItemWear, resolveImageUrl } from '../services/api';
 
 export default function OutfitCard({ outfit, onWearOutfit }) {
   const { topItem, bottomItem, footwearItem, accessoryItem, harmonyScore, mood, occasion, explanation } = outfit;
@@ -60,7 +60,7 @@ export default function OutfitCard({ outfit, onWearOutfit }) {
         <div className="flex flex-col items-center bg-stone-50 dark:bg-slate-900/60 p-2.5 rounded-2xl border border-stone-100 dark:border-slate-700/60">
           <span className="text-[10px] uppercase font-bold text-stone-400 mb-1">Upper Top</span>
           <div className="w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-slate-800 mb-2">
-            <img src={topItem?.imageUrl} alt={topItem?.name} className="w-full h-full object-cover" />
+            <img src={resolveImageUrl(topItem?.imageUrl)} alt={topItem?.name} className="w-full h-full object-cover" />
           </div>
           <span className="text-xs font-bold text-stone-700 dark:text-slate-200 line-clamp-1 text-center">
             {topItem?.name || 'Shirt'}
@@ -71,7 +71,7 @@ export default function OutfitCard({ outfit, onWearOutfit }) {
         <div className="flex flex-col items-center bg-stone-50 dark:bg-slate-900/60 p-2.5 rounded-2xl border border-stone-100 dark:border-slate-700/60">
           <span className="text-[10px] uppercase font-bold text-stone-400 mb-1">Lower Bottom</span>
           <div className="w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-slate-800 mb-2">
-            <img src={bottomItem?.imageUrl} alt={bottomItem?.name} className="w-full h-full object-cover" />
+            <img src={resolveImageUrl(bottomItem?.imageUrl)} alt={bottomItem?.name} className="w-full h-full object-cover" />
           </div>
           <span className="text-xs font-bold text-stone-700 dark:text-slate-200 line-clamp-1 text-center">
             {bottomItem?.name || 'Trousers'}
@@ -82,7 +82,7 @@ export default function OutfitCard({ outfit, onWearOutfit }) {
         <div className="flex flex-col items-center bg-stone-50 dark:bg-slate-900/60 p-2.5 rounded-2xl border border-stone-100 dark:border-slate-700/60">
           <span className="text-[10px] uppercase font-bold text-stone-400 mb-1">Footwear</span>
           <div className="w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-slate-800 mb-2">
-            <img src={footwearItem?.imageUrl || 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500&q=80'} alt="Footwear" className="w-full h-full object-cover" />
+            <img src={resolveImageUrl(footwearItem?.imageUrl)} alt="Footwear" className="w-full h-full object-cover" />
           </div>
           <span className="text-xs font-bold text-stone-700 dark:text-slate-200 line-clamp-1 text-center">
             {footwearItem?.name || 'Matching Shoes'}
@@ -93,7 +93,7 @@ export default function OutfitCard({ outfit, onWearOutfit }) {
         <div className="flex flex-col items-center bg-stone-50 dark:bg-slate-900/60 p-2.5 rounded-2xl border border-stone-100 dark:border-slate-700/60">
           <span className="text-[10px] uppercase font-bold text-stone-400 mb-1">Accessory</span>
           <div className="w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-slate-800 mb-2">
-            <img src={accessoryItem?.imageUrl || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80'} alt="Accessory" className="w-full h-full object-cover" />
+            <img src={resolveImageUrl(accessoryItem?.imageUrl)} alt="Accessory" className="w-full h-full object-cover" />
           </div>
           <span className="text-xs font-bold text-stone-700 dark:text-slate-200 line-clamp-1 text-center">
             {accessoryItem?.name || 'Accent Accessory'}
