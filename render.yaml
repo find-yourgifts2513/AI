@@ -3,8 +3,9 @@ services:
   - type: web
     name: ai-wardrobe-backend
     env: node
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && npm start
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
       - key: PORT
         value: 5000
@@ -19,8 +20,9 @@ services:
   - type: web
     name: ai-wardrobe-engine
     env: python
-    buildCommand: cd ai_engine && pip install -r requirements.txt
-    startCommand: cd ai_engine && python app.py
+    rootDir: ai_engine
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
     envVars:
       - key: PORT
         value: 5001
