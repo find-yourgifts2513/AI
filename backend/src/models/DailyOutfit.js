@@ -22,6 +22,10 @@ const dailyOutfitSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ClothingItem'
   },
+  watchItem: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ClothingItem'
+  },
   accessoryItem: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ClothingItem'

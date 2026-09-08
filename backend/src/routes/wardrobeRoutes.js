@@ -43,7 +43,8 @@ router.post('/upload', protect, upload.single('image'), async (req, res) => {
     const categoryHint = req.body.category || null;
 
     // AI Auto-Tagging
-    const aiTags = await analyzeUploadedImage(req.file ? req.file.path : '', categoryHint, filename || req.body.name || '');
+    const sourceName = req.file?.originalname || req.body.name || filename;
+    const aiTags = await analyzeUploadedImage(req.file ? req.file.path : '', categoryHint, sourceName);
 
     const name = req.body.name || `${aiTags.dominantColors[0]?.name || 'Stylish'} ${aiTags.subCategory.replace('_', ' ')}`;
 

@@ -12,6 +12,8 @@ services:
         sync: false
       - key: JWT_SECRET
         generateValue: true
+      - key: AI_ENGINE_URL
+        value: https://ai-wardrobe-engine.onrender.com
 
   # Python Computer Vision Microservice (Optional)
   - type: web

@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import base64
+import os
+import tempfile
 from color_extractor import extract_dominant_colors
 from pattern_detector import detect_clothing_pattern
 from skin_analyzer import analyze_skin_undertone
@@ -15,9 +18,19 @@ def health():
 def analyze_clothing():
     data = request.get_json() or {}
     image_path = data.get('image_path', '')
-    
+    temporary_path = None
+    if data.get('image_data'):
+        image_bytes = base64.b64decode(data['image_data'])
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as image_file:
+            image_file.write(image_bytes)
+            temporary_path = image_file.name
+        image_path = temporary_path
+
     colors = extract_dominant_colors(image_path)
     pattern = detect_clothing_pattern(image_path)
+
+    if temporary_path:
+        os.unlink(temporary_path)
     
     return jsonify({
         "dominant_colors": colors,

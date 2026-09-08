@@ -8,61 +8,57 @@ function generateOutfitRecommendations(items, { mood = 'Energetic', occasion = '
   const tops = items.filter(item => item.category === 'top');
   const bottoms = items.filter(item => item.category === 'bottom');
   const footwears = items.filter(item => item.category === 'footwear');
-  const accessories = items.filter(item => item.category === 'accessory');
+  const watches = items.filter(item => item.category === 'accessory' && item.subCategory === 'watch');
+  const accessories = items.filter(item => item.category === 'accessory' && item.subCategory !== 'watch');
 
   if (tops.length === 0 || bottoms.length === 0) {
     return [];
   }
 
   const combinations = [];
+  const footwearOptions = footwears.length ? footwears : [null];
+  const watchOptions = watches.length ? watches : [null];
+  const accessoryOptions = accessories.length ? accessories : [null];
 
   for (const top of tops) {
     for (const bottom of bottoms) {
-      // Pick best footwear option
-      let bestFootwear = footwears.find(f => isFootwearMatch(f, occasion)) || footwears[0] || null;
-      // Pick best accessory option
-      let bestAccessory = accessories.find(a => isAccessoryMatch(a, occasion, mood)) || accessories[0] || null;
+      for (const footwear of footwearOptions) {
+        for (const watch of watchOptions) {
+          for (const accessory of accessoryOptions) {
+            const bestFootwear = footwear;
+            const bestWatch = watch;
+            const bestAccessory = accessory;
 
-      const colorScore = calculateColorHarmony(
-        top.dominantColors?.[0]?.hex,
-        bottom.dominantColors?.[0]?.hex
-      );
+            if (bestWatch && bestAccessory && getItemId(bestWatch) === getItemId(bestAccessory)) continue;
 
-      const moodScore = evaluateMoodScore(top, bottom, bestFootwear, bestAccessory, mood);
-      const occasionScore = evaluateOccasionScore(top, bottom, bestFootwear, bestAccessory, occasion);
+            const colorScore = calculateOutfitColorScore(top, bottom, bestFootwear, bestWatch, bestAccessory);
+            const moodScore = evaluateMoodScore(top, bottom, bestFootwear, bestAccessory || bestWatch, mood);
+            const occasionScore = evaluateOccasionScore(top, bottom, bestFootwear, bestAccessory || bestWatch, occasion);
+            const accessoryScore = scoreAccessorySet(bestWatch, bestAccessory, occasion, mood);
 
-      let skinBonus = 0;
-      if (skinProfile && skinProfile.recommendedColors) {
-        const recHexes = skinProfile.recommendedColors.map(c => typeof c === 'string' ? c.toLowerCase() : c.hex.toLowerCase());
-        const topHex = top.dominantColors?.[0]?.hex?.toLowerCase();
-        if (topHex && recHexes.some(h => isSimilarColor(h, topHex))) {
-          skinBonus += 15;
+            let skinBonus = 0;
+            if (skinProfile && skinProfile.recommendedColors) {
+              const recHexes = skinProfile.recommendedColors.map(c => typeof c === 'string' ? c.toLowerCase() : c.hex.toLowerCase());
+              const topHex = top.dominantColors?.[0]?.hex?.toLowerCase();
+              if (topHex && recHexes.some(h => isSimilarColor(h, topHex))) skinBonus += 15;
+            }
+
+            const totalScore = Math.min(100, Math.round(
+              (colorScore * 0.30) + (moodScore * 0.25) +
+              (occasionScore * 0.25) + (accessoryScore * 0.10) + (skinBonus * 0.10)
+            ));
+
+            const explanation = generateStylingExplanation(top, bottom, bestFootwear, bestWatch, bestAccessory, mood, occasion, totalScore);
+
+            combinations.push({
+              topItem: top, bottomItem: bottom, footwearItem: bestFootwear,
+              watchItem: bestWatch, accessoryItem: bestAccessory,
+              harmonyScore: totalScore, colorHarmonyScore: colorScore,
+              moodScore, occasionScore, mood, occasion, explanation
+            });
+          }
         }
       }
-
-      // Weighted total harmony score calculation
-      const totalScore = Math.min(100, Math.round(
-        (colorScore * 0.35) +
-        (moodScore * 0.30) +
-        (occasionScore * 0.25) +
-        (skinBonus * 0.10)
-      ));
-
-      const explanation = generateStylingExplanation(top, bottom, bestFootwear, bestAccessory, mood, occasion, totalScore);
-
-      combinations.push({
-        topItem: top,
-        bottomItem: bottom,
-        footwearItem: bestFootwear,
-        accessoryItem: bestAccessory,
-        harmonyScore: totalScore,
-        colorHarmonyScore: colorScore,
-        moodScore,
-        occasionScore,
-        mood,
-        occasion,
-        explanation
-      });
     }
   }
 
@@ -89,15 +85,43 @@ function isAccessoryMatch(accessory, occasion, mood) {
   return true;
 }
 
+function calculateOutfitColorScore(top, bottom, footwear, watch, accessory) {
+  const colors = [top, bottom, footwear, watch, accessory]
+    .filter(Boolean)
+    .map(item => item.dominantColors?.[0]?.hex)
+    .filter(Boolean);
+  if (colors.length < 2) return 70;
+  let total = 0;
+  let pairs = 0;
+  for (let i = 0; i < colors.length; i++) {
+    for (let j = i + 1; j < colors.length; j++) {
+      total += calculateColorHarmony(colors[i], colors[j]);
+      pairs++;
+    }
+  }
+  return Math.round(total / pairs);
+}
+
+function scoreAccessorySet(watch, accessory, occasion, mood) {
+  let score = 65;
+  if (watch) score += occasion === 'College' || occasion === 'Office' ? 20 : 5;
+  if (accessory) score += occasion === 'Party' || mood === 'Confident' ? 20 : 8;
+  return Math.min(100, score);
+}
+
+function getItemId(item) {
+  return item?._id || item?.id;
+}
+
 function isSimilarColor(hex1, hex2) {
   if (!hex1 || !hex2) return false;
   return hex1 === hex2 || calculateColorHarmony(hex1, hex2) > 85;
 }
 
-function generateStylingExplanation(top, bottom, footwear, accessory, mood, occasion, score) {
+function generateStylingExplanation(top, bottom, footwear, watch, accessory, mood, occasion, score) {
   const topColor = top.dominantColors?.[0]?.name || 'top';
   const bottomColor = bottom.dominantColors?.[0]?.name || 'bottom';
-  const accName = accessory ? accessory.name : 'minimal accent';
+  const accName = [watch?.name, accessory?.name].filter(Boolean).join(' and ') || 'minimal accents';
 
   let text = `Matched ${top.name} (${topColor}) with ${bottom.name} (${bottomColor}). `;
 
@@ -112,7 +136,7 @@ function generateStylingExplanation(top, bottom, footwear, accessory, mood, occa
   }
 
   text += `Tailored specifically for ${occasion} mode`;
-  if (accessory) {
+  if (watch || accessory) {
     text += ` completed with auto-matched ${accName}.`;
   } else {
     text += `.`;

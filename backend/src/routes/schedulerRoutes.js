@@ -51,6 +51,7 @@ async function populateOutfit(outfit) {
   const top = outfit.topItem ? await ClothingStore.findById(outfit.topItem) : null;
   const bottom = outfit.bottomItem ? await ClothingStore.findById(outfit.bottomItem) : null;
   const footwear = outfit.footwearItem ? await ClothingStore.findById(outfit.footwearItem) : null;
+  const watch = outfit.watchItem ? await ClothingStore.findById(outfit.watchItem) : null;
   const accessory = outfit.accessoryItem ? await ClothingStore.findById(outfit.accessoryItem) : null;
 
   return {
@@ -58,6 +59,7 @@ async function populateOutfit(outfit) {
     topItem: top,
     bottomItem: bottom,
     footwearItem: footwear,
+    watchItem: watch,
     accessoryItem: accessory
   };
 }

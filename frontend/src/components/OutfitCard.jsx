@@ -3,13 +3,14 @@ import { Sparkles, CheckCircle2, Award, Zap, Smile, Heart, Shield } from 'lucide
 import { incrementItemWear, resolveImageUrl } from '../services/api';
 
 export default function OutfitCard({ outfit, onWearOutfit }) {
-  const { topItem, bottomItem, footwearItem, accessoryItem, harmonyScore, mood, occasion, explanation } = outfit;
+  const { topItem, bottomItem, footwearItem, watchItem, accessoryItem, harmonyScore, mood, occasion, explanation } = outfit;
 
   const handleWear = async () => {
     try {
       if (topItem) await incrementItemWear(topItem._id || topItem.id);
       if (bottomItem) await incrementItemWear(bottomItem._id || bottomItem.id);
       if (footwearItem) await incrementItemWear(footwearItem._id || footwearItem.id);
+      if (watchItem) await incrementItemWear(watchItem._id || watchItem.id);
       if (accessoryItem) await incrementItemWear(accessoryItem._id || accessoryItem.id);
 
       if (onWearOutfit) onWearOutfit();
@@ -53,8 +54,8 @@ export default function OutfitCard({ outfit, onWearOutfit }) {
         </div>
       </div>
 
-      {/* Outfit 4-Grid Pieces */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+      {/* Outfit 5-Grid Pieces */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-4">
         
         {/* Top Item */}
         <div className="flex flex-col items-center bg-stone-50 dark:bg-slate-900/60 p-2.5 rounded-2xl border border-stone-100 dark:border-slate-700/60">
@@ -86,6 +87,17 @@ export default function OutfitCard({ outfit, onWearOutfit }) {
           </div>
           <span className="text-xs font-bold text-stone-700 dark:text-slate-200 line-clamp-1 text-center">
             {footwearItem?.name || 'Matching Shoes'}
+          </span>
+        </div>
+
+        {/* Watch Item */}
+        <div className="flex flex-col items-center bg-stone-50 dark:bg-slate-900/60 p-2.5 rounded-2xl border border-stone-100 dark:border-slate-700/60">
+          <span className="text-[10px] uppercase font-bold text-stone-400 mb-1">Watch</span>
+          <div className="w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-slate-800 mb-2">
+            <img src={resolveImageUrl(watchItem?.imageUrl)} alt="Watch" className="w-full h-full object-cover" />
+          </div>
+          <span className="text-xs font-bold text-stone-700 dark:text-slate-200 line-clamp-1 text-center">
+            {watchItem?.name || 'Matching Watch'}
           </span>
         </div>
 

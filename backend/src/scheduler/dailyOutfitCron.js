@@ -49,6 +49,7 @@ async function generateTodayOutfitIfNeeded(userId = 'demo-user-123', forceNew = 
       topItem: topRec.topItem._id || topRec.topItem.id,
       bottomItem: topRec.bottomItem._id || topRec.bottomItem.id,
       footwearItem: topRec.footwearItem ? (topRec.footwearItem._id || topRec.footwearItem.id) : null,
+      watchItem: topRec.watchItem ? (topRec.watchItem._id || topRec.watchItem.id) : null,
       accessoryItem: topRec.accessoryItem ? (topRec.accessoryItem._id || topRec.accessoryItem.id) : null,
       mood: randomMood,
       occasion: randomOccasion,

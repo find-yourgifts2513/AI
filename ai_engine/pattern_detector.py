@@ -8,22 +8,24 @@ def detect_clothing_pattern(image_path):
             return "solid"
 
         img = cv2.resize(img, (200, 200))
-        edges = cv2.Canny(img, 50, 150)
-        edge_density = np.sum(edges > 0) / (200 * 200)
+        blurred = cv2.GaussianBlur(img, (5, 5), 0)
+        edges = cv2.Canny(blurred, 50, 150)
+        edge_density = np.mean(edges > 0)
 
-        # Fast Fourier Transform for periodicity (stripes vs checks vs solids)
-        f = np.fft.fft2(img)
-        fshift = np.fft.fftshift(f)
-        magnitude_spectrum = 20 * np.log(np.abs(fshift) + 1)
-        fft_std = np.std(magnitude_spectrum)
+        # Repeated directional edges are a better stripe/check signal than a
+        # global FFT threshold, which is easily triggered by photo backgrounds.
+        horizontal_edges = np.mean(np.abs(cv2.Sobel(blurred, cv2.CV_32F, 1, 0)))
+        vertical_edges = np.mean(np.abs(cv2.Sobel(blurred, cv2.CV_32F, 0, 1)))
+        direction_ratio = max(horizontal_edges, vertical_edges) / max(min(horizontal_edges, vertical_edges), 1)
+        texture = cv2.Laplacian(blurred, cv2.CV_32F).var()
 
-        if edge_density < 0.05:
+        if edge_density < 0.035 and texture < 180:
             return "solid"
-        elif fft_std > 28.0:
+        elif direction_ratio > 1.8:
             return "striped"
-        elif edge_density > 0.15:
+        elif edge_density > 0.12 and texture > 500:
             return "floral"
-        elif edge_density > 0.09:
+        elif edge_density > 0.07:
             return "plaid"
         else:
             return "solid"

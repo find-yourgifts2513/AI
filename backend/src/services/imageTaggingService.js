@@ -20,11 +20,51 @@ const COLOR_NAMES_MAP = [
   { name: 'Gold / Warm Metallic', hex: '#FFD700', rgb: [255, 215, 0] }
 ];
 
+const COLOR_KEYWORDS = {
+  navy: 'Navy Blue',
+  blue: 'Royal Blue',
+  sky: 'Sky Blue',
+  black: 'Classic Black',
+  white: 'Pure White',
+  grey: 'Heather Grey',
+  gray: 'Heather Grey',
+  red: 'Crimson Red',
+  olive: 'Olive Green',
+  green: 'Emerald Green',
+  yellow: 'Mustard Yellow',
+  mustard: 'Mustard Yellow',
+  beige: 'Beige / Tan',
+  tan: 'Beige / Tan',
+  pink: 'Blush Pink',
+  burgundy: 'Burgundy',
+  lavender: 'Lavender',
+  purple: 'Lavender',
+  gold: 'Gold / Warm Metallic'
+};
+
 async function analyzeUploadedImage(filePath, hintCategory = null, filename = '') {
   let category = hintCategory || inferCategoryFromFilename(filename) || 'top';
   let subCategory = inferSubCategory(filename, category);
-  let dominantColors = extractColorsFromFilenameOrFallback(filename);
+  let dominantColors = extractColorsFromFilename(filename);
   let pattern = inferPattern(filename);
+
+  if (filePath) {
+    try {
+      const visionResult = await analyzeWithVisionEngine(filePath);
+      if (visionResult?.dominant_colors?.length) {
+        dominantColors = visionResult.dominant_colors.map(normalizeColor);
+      }
+      if (visionResult?.pattern) {
+        pattern = normalizePattern(visionResult.pattern);
+      }
+    } catch (error) {
+      console.warn(`[AI Tagging] Vision engine unavailable: ${error.message}`);
+    }
+  }
+
+  if (dominantColors.length === 0) {
+    dominantColors = [COLOR_NAMES_MAP[0]];
+  }
   let styleTags = inferStyleTags(filename, category, subCategory);
 
   const primaryHex = dominantColors[0]?.hex || '#4169E1';
@@ -40,6 +80,21 @@ async function analyzeUploadedImage(filePath, hintCategory = null, filename = ''
     colorTemperature: meta.temperature,
     vibrancy: meta.vibrancy
   };
+}
+
+async function analyzeWithVisionEngine(filePath) {
+  const engineUrl = process.env.AI_ENGINE_URL || 'http://127.0.0.1:5001';
+  const imageData = fs.readFileSync(filePath).toString('base64');
+  const response = await fetch(`${engineUrl.replace(/\/$/, '')}/analyze-clothing`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image_data: imageData })
+  });
+
+  if (!response.ok) {
+    throw new Error(`AI engine returned HTTP ${response.status}`);
+  }
+  return response.json();
 }
 
 function inferCategoryFromFilename(filename = '') {
@@ -73,7 +128,7 @@ function inferSubCategory(filename = '', category = 'top') {
   if (category === 'accessory') {
     if (name.includes('watch')) return 'watch';
     if (name.includes('belt')) return 'belt';
-    if (name.includes('jewel') || name.includes('chain')) return 'jewelry';
+    if (name.includes('jewel') || name.includes('chain') || name.includes('bracelet')) return 'jewelry';
     return 'accessory';
   }
   return 'general';
@@ -119,31 +174,36 @@ function inferStyleTags(filename = '', category, subCategory) {
   return Array.from(tags);
 }
 
-function extractColorsFromFilenameOrFallback(filename = '') {
+function extractColorsFromFilename(filename = '') {
   const name = filename.toLowerCase();
   const matched = [];
 
   for (const c of COLOR_NAMES_MAP) {
-    if (name.includes(c.name.toLowerCase().split(' ')[0])) {
+    const colorName = c.name.toLowerCase().split(' ')[0];
+    if (name.includes(colorName) || Object.entries(COLOR_KEYWORDS).some(([keyword, mappedName]) => mappedName === c.name && name.includes(keyword))) {
       matched.push(c);
     }
   }
 
-  if (matched.length > 0) return matched;
-
-  // Pick high aesthetic default colors based on hash
-  const idx = Math.abs(hashCode(filename)) % COLOR_NAMES_MAP.length;
-  const idx2 = (idx + 3) % COLOR_NAMES_MAP.length;
-  return [COLOR_NAMES_MAP[idx], COLOR_NAMES_MAP[idx2]];
+  return matched;
 }
 
-function hashCode(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash << 5) - hash + str.charCodeAt(i);
-    hash |= 0;
-  }
-  return hash;
+function normalizeColor(color) {
+  const rgb = Array.isArray(color.rgb) ? color.rgb : [0, 0, 0];
+  return {
+    name: color.name || 'Unknown',
+    hex: color.hex || rgbToHex(rgb),
+    rgb
+  };
+}
+
+function rgbToHex(rgb) {
+  return `#${rgb.map(value => Math.max(0, Math.min(255, Number(value) || 0)).toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+}
+
+function normalizePattern(pattern) {
+  const supportedPatterns = new Set(['solid', 'striped', 'plaid', 'floral', 'polka_dots', 'graphic', 'checkered']);
+  return supportedPatterns.has(pattern) ? pattern : 'solid';
 }
 
 module.exports = {
